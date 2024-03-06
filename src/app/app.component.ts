@@ -13,5 +13,5 @@ import { HeaderComponent } from './components/header/header.component';
 })
 export class AppComponent {
   title = 'Ids Ng tester';
-  subHeader = "17.5.5"
+  subHeader = "17.5.2"
 }
