@@ -1,0 +1,38 @@
+<!-- <ng-container *ngIf="sohoGridOptions$ | ngrxPush as sohoGridOptions">
+    <ng-container *ngIf="sohoGridOptions?.toolbar">
+      <clms-toolbar-flex
+        [title]="title"
+        [menuItems]="menuItems"
+        [searchEnabled]="searchEnabled"
+        [searchPlaceholder]="searchPlaceholder"
+        (buttonClick)="handleButtonClick($event)"
+        (menuItemClick)="handleMenuItemClick($event)"
+        (searchEvent)="handleSearchEvent($event)"></clms-toolbar-flex>
+    </ng-container>
+    <ng-container *ngIf="sohoGridOptions">
+      <div
+        *ngIf="sohoGridOptions.source; else basicGrid"
+        soho-datagrid="auto"
+        [columns]="sohoGridOptions.columns"
+        [gridOptions]="sohoGridOptions"
+        [emptyMessage]="emptyMessage"
+        (selected)="getSelected($event)"
+        (filtered)="getFiltered($event)"></div>
+  
+      <ng-template #basicGrid>
+        <div
+          soho-datagrid="auto"
+          [columns]="sohoGridOptions.columns"
+          [data]="sohoGridOptions.dataset"
+          [gridOptions]="sohoGridOptions"
+          [emptyMessage]="emptyMessage"
+          (filtered)="getFiltered($event)"
+          (selected)="getSelected($event)"></div>
+      </ng-template>
+    </ng-container>
+  </ng-container>
+   -->
+
+<ng-container *ngIf="columns.length">
+    <div soho-datagrid="auto" [gridOptions]="gridOptions" [data]="data"></div>
+</ng-container>
