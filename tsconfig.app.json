@@ -3,7 +3,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": ["jquery", "ids-enterprise-typings"],
+    "types": ["jquery", "node", "ids-enterprise-typings"],
   },
   "files": ["src/main.ts"],
   "include": ["src/**/*.d.ts"]

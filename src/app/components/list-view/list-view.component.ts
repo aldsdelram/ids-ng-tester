@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AppCommonModule } from '@modules/app-common/app-common.module';
 import { ModalFactoryService } from '@modules/shared/services/modal-factory.service';
 import { ListViewModalComponent } from '../list-view-modal/list-view-modal.component';
+import { SharedModule } from '@modules/shared/shared.module';
+import { CommonUtils } from '@modules/shared/utils/public-api';
 
 export interface ListViewDataset {
   id?: string;
@@ -14,7 +16,7 @@ export interface ListViewDataset {
 @Component({
   selector: 'app-list-view',
   standalone: true,
-  imports: [AppCommonModule],
+  imports: [AppCommonModule, SharedModule],
   templateUrl: './list-view.component.html',
   styleUrl: './list-view.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,7 +31,7 @@ export class ListViewComponent {
 
   dataset: ListViewDataset[] = [];
 
-  constructor(private modalFactoryService: ModalFactoryService,) {
+  constructor(private modalFactoryService: ModalFactoryService) {
     this.setupDataset();
   }
 
@@ -97,13 +99,22 @@ export class ListViewComponent {
     });
   }
 
-  showListViewModal(): void {
+  showListViewModal(isCardWrapped: boolean): void {
     const listViewModal = this.modalFactoryService.create({
       component: ListViewModalComponent,
       showCloseButton: true,
-      maxWidth: 450,
-      title: 'hello',
+      // maxWidth: 450,
+      title: isCardWrapped ? 'List View Sample Wrapped in Card' : 'List View Sample',
     });
+
+    const listViewModalComponent = listViewModal.getComponentDialog();
+    if (
+      isCardWrapped &&
+      CommonUtils.notNullNorUndefined(listViewModalComponent)
+    ) {
+      listViewModalComponent.isCardWrapped = isCardWrapped;
+    }
+
     listViewModal.open();
   }
 }

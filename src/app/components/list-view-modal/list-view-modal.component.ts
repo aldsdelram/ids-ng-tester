@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { AppCommonModule } from '@modules/app-common/app-common.module';
 import { ListViewDataset } from '../list-view/list-view.component';
 import { ModalFactoryService } from '@modules/shared/services/modal-factory.service';
@@ -12,6 +12,8 @@ import { ModalFactoryService } from '@modules/shared/services/modal-factory.serv
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListViewModalComponent {
+  @Input() isCardWrapped: boolean = false;
+
   emptyMessage: SohoEmptyMessageOptions = {
     icon: 'icon-empty-no-alerts-new',
     title: 'Search result',

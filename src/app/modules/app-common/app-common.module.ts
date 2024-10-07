@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SohoComponentsModule } from 'ids-enterprise-ng';
+import { SohoComponentsModule, SohoModalDialogService } from 'ids-enterprise-ng';
 import { SohoLocaleInitializerModule } from '@modules/locale-initializer/locale-initializer.module';
-import { SharedModule } from '@modules/shared/shared.module';
 
-const exportedModules = [CommonModule, SohoComponentsModule, SharedModule];
+const exportedModules = [CommonModule, SohoComponentsModule];
 
 @NgModule({
   declarations: [],
   imports: [SohoLocaleInitializerModule, ...exportedModules],
   exports: [...exportedModules],
+  providers: [SohoModalDialogService]
 })
 export class AppCommonModule {}

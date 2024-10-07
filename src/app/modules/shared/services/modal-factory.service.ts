@@ -4,6 +4,7 @@ import { ModalOptions } from '@shared/classes/modal.utils';
 import { StringUtils } from '@shared/utils/public-api';
 import { SohoModalDialogService } from 'ids-enterprise-ng';
 
+
 @Injectable({
   providedIn: 'root',
 })

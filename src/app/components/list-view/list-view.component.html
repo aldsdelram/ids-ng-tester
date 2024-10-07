@@ -1,10 +1,11 @@
 <div>
-  <button soho-button="primary" (click)="showListViewModal()">Show ListViewModal</button>
+  <button soho-button="primary" (click)="showListViewModal(false)">Show ListViewModal</button>
+  <button soho-button="primary" (click)="showListViewModal(true)">Show ListViewModal Card Wrapped</button>
 </div>
 
 <div class="card">
   <div class="card-header">
-    <h2 class="card-title">Empty Message Attribute</h2>
+    <h2 class="card-title">Empty Message as Attribute</h2>
   </div>
   <div class="card-content">
     <soho-listview
@@ -21,13 +22,6 @@
         [ngStyle]="searchable ? {} : { display: 'hidden' }"
         [class.hidden]="!searchable"
       />
-
-      <!-- <div
-            soho-emptymessage
-            icon="icon-empty-no-alerts-new"
-            title="Search result"
-            info="Record not found."></div> -->
-
       @for (data of dataset; track data) {
       <li soho-listview-item [disabled]="!!data.disabled">
         @if (data.header) {
@@ -45,7 +39,7 @@
 
 <div class="card">
   <div class="card-header">
-    <h2 class="card-title">Empty Message Content</h2>
+    <h2 class="card-title">Empty Message as Content</h2>
   </div>
   <div class="card-content">
     <soho-listview
