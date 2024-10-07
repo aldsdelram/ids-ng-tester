@@ -1,13 +1,17 @@
 <router-outlet />
 
-<soho-icons></soho-icons>
+<soho-icons-new></soho-icons-new>
+<soho-icons-empty [icons]="'colorful'"></soho-icons-empty>
+<soho-icons-app></soho-icons-app>
+
 <div class="page-container no-scroll">
   <div id="maincontent" class="page-container scrollable" role="main">
     <app-header [title]="title" [subHeader]="subHeader"></app-header>
     <div class="row">
       <div class="twelve columns">
         <br />
-        <app-data-grid></app-data-grid>
+        <!-- <app-data-grid></app-data-grid> -->
+        <app-list-view></app-list-view>
       </div>
     </div>
   </div>
