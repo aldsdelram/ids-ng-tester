@@ -1,0 +1,33 @@
+<soho-listview
+  [dataset]="dataset"
+  [searchable]="searchable"
+  [selectable]="'single'"
+>
+  <input
+    soho-searchfield
+    placeholder="Search"
+    [clearable]="true"
+    [placeholder]="'Enter template name, number'"
+    [ngStyle]="searchable ? {} : { display: 'hidden' }"
+    [class.hidden]="!searchable"
+  />
+
+  <div
+    soho-emptymessage
+    [icon]="emptyMessage.icon"
+    [title]="emptyMessage.title"
+    [info]="emptyMessage.info"
+  ></div>
+
+  @for (data of dataset; track data) {
+  <li soho-listview-item [disabled]="!!data.disabled">
+    @if (data.header) {
+    <p soho-listview-header>{{ data.header }}</p>
+    } @if (data.subheader) {
+    <p soho-listview-subheader>{{ data.subheader }}</p>
+    } @if (data.micro) {
+    <p soho-listview-micro>{{ data.micro }}</p>
+    }
+  </li>
+  }
+</soho-listview>
