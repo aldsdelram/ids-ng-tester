@@ -8,17 +8,13 @@ import { ListViewComponent } from './components/list-view/list-view.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    RouterOutlet,
-    AppCommonModule,
-    DataGridComponent,
-    HeaderComponent,
-    ListViewComponent,
-  ],
+  imports: [RouterOutlet, AppCommonModule, DataGridComponent, HeaderComponent, ListViewComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'Ids Ng tester';
-  subHeader = '18.3.3';
+  title = 'Ids Ng tester - List View Issues';
+  subHeader = "v18.3.3"
+
+  fields = Array.from({length: 10}, (_, i) => 'field' + (i + 1))
 }

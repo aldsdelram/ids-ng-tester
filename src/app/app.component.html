@@ -8,10 +8,16 @@
   <div id="maincontent" class="page-container scrollable" role="main">
     <app-header [title]="title" [subHeader]="subHeader"></app-header>
     <div class="row">
-      <div class="twelve columns">
-        <br />
-        <!-- <app-data-grid></app-data-grid> -->
-        <app-list-view></app-list-view>
+      <div class="column two-columns">
+        @for(field of fields; track field){
+        <div class="field">
+          <label soho-label [attr.for]="field" class="label required" [title]="field">{{field}}
+          </label>
+          <div class="input-container">
+            <input class="input-field" [id]="field" />
+          </div>
+        </div>
+        }
       </div>
     </div>
   </div>
