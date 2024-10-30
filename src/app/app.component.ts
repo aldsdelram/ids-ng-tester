@@ -3,15 +3,22 @@ import { RouterOutlet } from '@angular/router';
 import { AppCommonModule } from '@modules/app-common/app-common.module';
 import { DataGridComponent } from './components/data-grid/data-grid.component';
 import { HeaderComponent } from './components/header/header.component';
+import { ListViewComponent } from './components/list-view/list-view.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AppCommonModule, DataGridComponent, HeaderComponent],
+  imports: [
+    RouterOutlet,
+    AppCommonModule,
+    DataGridComponent,
+    HeaderComponent,
+    ListViewComponent,
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
   title = 'Ids Ng tester';
-  subHeader = "17.5.5"
+  subHeader = '18.3.3';
 }

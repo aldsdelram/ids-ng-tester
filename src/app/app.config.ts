@@ -7,6 +7,6 @@ import { AppCommonModule } from '@modules/app-common/app-common.module';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    importProvidersFrom([SohoLocaleInitializerModule]),
+    importProvidersFrom([SohoLocaleInitializerModule, AppCommonModule]),
   ],
 };

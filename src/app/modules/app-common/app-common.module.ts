@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SohoComponentsModule } from 'ids-enterprise-ng';
+import { SohoComponentsModule, SohoModalDialogService } from 'ids-enterprise-ng';
 import { SohoLocaleInitializerModule } from '@modules/locale-initializer/locale-initializer.module';
 
 const exportedModules = [CommonModule, SohoComponentsModule];
@@ -9,5 +9,6 @@ const exportedModules = [CommonModule, SohoComponentsModule];
   declarations: [],
   imports: [SohoLocaleInitializerModule, ...exportedModules],
   exports: [...exportedModules],
+  providers: [SohoModalDialogService]
 })
 export class AppCommonModule {}
