@@ -1,0 +1,183 @@
+<ng-template #template>
+  <soho-module-nav-container [ngClass]="{ 'module-nav-container': true }">
+    <soho-module-nav
+      [ngClass]="{ 'module-nav': true }"
+      [mobileBehavior]="true"
+      [displayMode]="'expanded'"
+      [filterable]="true"
+      [showModuleSwitcher]="false"
+      [pinSections]="true"
+      [enableOutsideClick]="false"
+    >
+      <div class="module-nav-bar">
+        <soho-accordion
+          [allowOnePane]="true"
+          [hasPanels]="true"
+          [moduleNav]="true"
+          [rerouteOnLinkClick]="false"
+        >
+          <div class="module-nav-header accordion-section">
+            <soho-module-nav-switcher
+              class="module-nav-switcher"
+              [icon]="icon"
+              [moduleButtonText]="'Hello world'"
+              [displayMode]="false"
+            ></soho-module-nav-switcher>
+          </div>
+
+          <div class="module-nav-search-container accordion-section">
+            <label for="module-nav-searchfield" class="audible">{{
+              searchText
+            }}</label>
+            <input
+              soho-searchfield
+              id="module-nav-searchfield"
+              name="module-nav-searchfield"
+              [placeholder]="searchText"
+              [ngClass]="{
+                searchfield: true,
+                'module-nav-search': true
+              }"
+            />
+          </div>
+
+          <div class="module-nav-main accordion-section">
+            <ng-container *ngrxLet="menuItems as startMenuItems">
+              <ng-template
+                *ngTemplateOutlet="
+                  accordionItems;
+                  context: {
+                    menuItems: startMenuItems,
+                    sectionType: StartMenuItemSectionType.START_MENU
+                  }
+                "
+              >
+              </ng-template>
+            </ng-container>
+          </div>
+
+          @if (showFooterSection) {
+          <div class="module-nav-footer accordion-section">
+            <ng-container *ngrxLet="footerItems as footerItems">
+              <ng-template
+                *ngTemplateOutlet="
+                  accordionItems;
+                  context: {
+                    menuItems: footerItems,
+                    sectionType: StartMenuItemSectionType.FOOTER_MENU
+                  }
+                "
+              >
+              </ng-template>
+            </ng-container>
+          </div>
+          } @if (settingsMenuItems.length) {
+          <soho-module-nav-settings>
+            <div
+              soho-menu-button
+              id="module-nav-settings-btn"
+              class="module-nav-settings-btn accordion-header"
+              [icon]="'settings'"
+              [hideMenuArrow]="true"
+              [showArrow]="false"
+              [returnFocus]="true"
+              [ripple]="false"
+              [menu]="'module-nav-settings-menu'"
+            >
+              <a href="#"
+                ><span>{{ settingsText }}</span></a
+              >
+            </div>
+            <ul
+              soho-popupmenu
+              id="module-nav-settings-menu"
+              class="popupmenu module-nav-settings-menu"
+            >
+              @for (item of settingsMenuItems; track item.label) { @switch
+              (item.type) { @case (PopupMenuItemType.Item) {
+              <li
+                soho-popupmenu-item
+                [isIndented]="item.indented ?? false"
+                [class.is-toggleable]="item.isToggleable ?? false"
+                [isChecked]="item.isChecked ?? false"
+              >
+                <a
+                  soho-popupmenu-label
+                  [attr.href]="item.link"
+                  [attr.data-option]="item.dataOption"
+                >
+                  {{
+                    item.translatable
+                      ? (item.label | sohoTranslate)
+                      : item.label
+                  }}
+                </a>
+              </li>
+              } @case (PopupMenuItemType.Separator) {
+              <li soho-popupmenu-separator></li>
+              } @case (PopupMenuItemType.Heading) {
+              <li soho-popupmenu-heading>
+                {{ item.label | sohoTranslate }}
+              </li>
+              } @case (PopupMenuItemType.HiddenSeparator) {
+              <ng-container *ngTemplateOutlet="hiddenSeparator"></ng-container>
+              } } }
+            </ul>
+          </soho-module-nav-settings>
+          }
+        </soho-accordion>
+      </div>
+    </soho-module-nav>
+    <div class="page-container no-scroll has-module-nav-offset">
+      <ng-content select="[role=page-content]"></ng-content>
+    </div>
+  </soho-module-nav-container>
+</ng-template>
+
+<ng-template
+  #accordionItems
+  let-menuItems="menuItems"
+  let-sectionType="sectionType"
+>
+  @for (menuItem of menuItems; track menuItem.id) {
+  <ng-container *ngrxLet="false as isStartMenuItemHasChildren">
+    <!-- adding of `module-nav-settings-btn` as ID is a work around. module nav has an issue if accordion header has no child -->
+    <div
+      class="accordion-header"
+      [id]="isStartMenuItemHasChildren ? '' : 'module-nav-settings-btn'"
+      (click)="startMenuItemClicked(menuItem, sectionType)"
+    >
+      @if (hasIcon(menuItem)) {
+      <svg soho-icon [icon]="menuItem.icon" class="icon"></svg>
+      } @else {
+      <span class="icon"></span>
+      }
+      <a href="#">
+        <span>{{ menuItem.description }}</span>
+      </a>
+    </div>
+    <div class="accordion-pane" *ngIf="isStartMenuItemHasChildren">
+      <div
+        class="accordion-header"
+        *ngFor="let child of menuItem.children; trackById"
+      >
+        <a
+          href="#"
+          data-automation-id="child.key"
+          (click)="startMenuItemClicked(child, sectionType)"
+        >
+          <span>{{ child.description }}</span>
+        </a>
+      </div>
+    </div>
+  </ng-container>
+  }
+</ng-template>
+
+<ng-template #hiddenSeparator>
+  <li class="separator single-selectable-section separator--hidden"></li>
+  <li class="is-selectable" class="separator--hidden">
+    <a href="#" data-translate="text"></a>
+  </li>
+  <li class="separator separator--hidden"></li>
+</ng-template>

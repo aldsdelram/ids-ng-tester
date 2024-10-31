@@ -1,5 +1,5 @@
 import { Injectable, isDevMode } from '@angular/core';
-import { isCLMException } from '@shared/errors/clm-exception.error';
+import { isCLMException } from '@shared/errors/app-exception.error';
 import { XhrObject } from '@shared/interfaces/xhr-object';
 import { CommonUtils } from '@shared/utils/public-api';
 

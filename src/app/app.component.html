@@ -4,15 +4,94 @@
 <soho-icons-empty [icons]="'colorful'"></soho-icons-empty>
 <soho-icons-app></soho-icons-app>
 
-<div class="page-container no-scroll">
-  <div id="maincontent" class="page-container scrollable" role="main">
-    <app-header [title]="title" [subHeader]="subHeader"></app-header>
-    <div class="row">
-      <div class="twelve columns">
-        <br />
-        <!-- <app-data-grid></app-data-grid> -->
-        <app-list-view></app-list-view>
+<ng-container>
+  <ng-container>
+    <div soho-busyindicator [activated]="false">
+      <div id="app-main-container">
+        <app-module-nav
+          [menuItems]="startMenuItems"
+          [disableSwitcher]="true"
+          [showModuleSwitcher]="false"
+          [searchText]="searchText"
+          (menuItemSelected)="onMenuItemSelected($event)"
+        >
+          <ng-container role="page-content">
+            <ng-template *ngTemplateOutlet="pageContent"></ng-template>
+          </ng-container>
+        </app-module-nav>
+
+        <ng-template #pageContent>
+          <div id="maincontent" class="page-container scrollable" role="main">
+            <div id="app-main-tab" #clm_main_tab>
+              <div
+                soho-tabs
+                class="is-personalizable"
+                [moduleTabs]="true"
+                [containerElement]="containerElement"
+                (close)="onClose($event)"
+              >
+                <div soho-tab-list-container>
+                  <ul soho-tab-list>
+                    @for(tab of tabs; let index = $index; track tab.id){
+                    <li
+                      [dismissible]="tab.dismissible || false"
+                      [selected]="!!tab.isSelected"
+                      soho-tab
+                      [attr.data-tabId]="tab.id"
+                    >
+                      <a
+                        soho-tab-title
+                        [tabId]="tab.id"
+                        href="{{ '#' + tab.id }}"
+                        [tabindex]="index"
+                        [attr.data-tabId]="tab.id"
+                        >{{ tab.title }}</a
+                      >
+                    </li>
+                    }
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="page-container"
+              [style.height]="'calc(100% - ' + mainTabHeight + 'px)'"
+            >
+              <div class="header is-personalizable">
+                <app-toolbar-flex [title]="title"></app-toolbar-flex>
+              </div>
+
+              <div class="page-container scrollable">
+                <div class="main-tab-panel-container">
+                  <div id="notification-container"></div>
+                  <div soho-tab-panel-container [verticalScrolling]="true">
+                    @for(tab of tabs; track tab.id){
+                    <ng-container *ngrxLet="tab.id as tabId">
+                      <div soho-tab-panel [tabId]="tabId">
+                        <div class="page-container scrollable">
+                          <H1>TabId: {{ tabId }}</H1>
+                          <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Facilis, quibusdam voluptate dolore
+                            accusantium quisquam maiores! Quos magni distinctio
+                            suscipit placeat, minus illum quia aliquid ullam
+                            laboriosam, ea repellendus quae accusantium.
+                          </p>
+                          <button soho-button="primary" (click)="closeTab()">Close Tab#3</button>
+                          <button soho-button="primary" (click)="removeTab()">Remove Tab#3</button>
+                        </div>
+                      </div>
+                    </ng-container>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
       </div>
     </div>
-  </div>
-</div>
+  </ng-container>
+</ng-container>
+<div soho-personalize></div>
