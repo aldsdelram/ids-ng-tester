@@ -1,0 +1,8 @@
+{
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "editor.tabSize": 2,
+  "editor.stickyScroll.enabled": true,
+  "editor.renderWhitespace": "all",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "files.eol": "\n"
+}

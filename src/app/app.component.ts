@@ -4,6 +4,7 @@ import { AppCommonModule } from '@modules/app-common/app-common.module';
 import { DataGridComponent } from './components/data-grid/data-grid.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ListViewComponent } from './components/list-view/list-view.component';
+import { FormComponent } from './components/form/form.component';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ import { ListViewComponent } from './components/list-view/list-view.component';
     DataGridComponent,
     HeaderComponent,
     ListViewComponent,
+    FormComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
