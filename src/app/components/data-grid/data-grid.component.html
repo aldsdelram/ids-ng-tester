@@ -33,6 +33,123 @@
   </ng-container>
    -->
 
-<ng-container *ngIf="columns.length">
-    <div soho-datagrid="auto" [gridOptions]="gridOptions" [data]="data"></div>
-</ng-container>
+<!-- <ng-container *ngIf="columns.length"> -->
+
+<div soho-tabs class="is-personalizable" [moduleTabs]="true">
+  <div soho-tab-list-container>
+    <ul soho-tab-list>
+      @for (tab of tabs; track tab.id; let index = $index) {
+        <li [dismissible]="true" soho-tab [attr.data-tabId]="tab.id">
+          <a
+            soho-tab-title
+            [tabId]="tab.id"
+            href="{{ '#' + tab.id }}"
+            [tabindex]="index"
+            [attr.data-tabId]="tab.id"
+            >{{ tab.title }}</a
+          >
+        </li>
+      }
+    </ul>
+  </div>
+</div>
+
+<div soho-tab-panel-container [verticalScrolling]="true">
+  @for (tab of tabs; track tab.id) {
+    <div soho-tab-panel [tabId]="tab.id" style="padding-top: 0">
+      <div
+        soho-tabs
+        class="is-personalizable"
+        [moduleTabs]="false"
+        [containerElement]="'#childTabs_' + tab.id"
+      >
+        <div soho-tab-list-container>
+          <ul soho-tab-list>
+            @for (
+              childTab of childTabs;
+              track childTab.id;
+              let index = $index
+            ) {
+              <li
+                [dismissible]="true"
+                soho-tab
+                [attr.data-tabId]="tab.id + childTab.id"
+              >
+                <a
+                  soho-tab-title
+                  [tabId]="tab.id + childTab.id"
+                  href="{{ '#' + childTab.id }}"
+                  [tabindex]="index"
+                  [attr.data-tabId]="childTab.id"
+                  >{{ childTab.title }}</a
+                >
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+      <div
+        soho-tab-panel-container
+        [verticalScrolling]="true"
+        [id]="'childTabs_' + tab.id"
+      >
+        @for (childTab of childTabs; track childTab.id) {
+          <div
+            soho-tab-panel
+            [tabId]="tab.id + childTab.id"
+            style="padding-top: 0"
+          >
+            <div
+              soho-busyindicator
+              [activated]="false"
+              class="full-height scrollable-flex"
+            >
+              <h1>{{ gridOptionList[tab.id].columns?.length }} columns</h1>
+
+              @if (childTab.id.includes("1")) {
+                <ng-container
+                  *ngTemplateOutlet="datagridSample; context: { tab }"
+                ></ng-container>
+              } @else if (childTab.id.includes("2")) {
+                <div class="row">
+                  <ng-container
+                    *ngTemplateOutlet="datagridSample; context: { tab }"
+                  ></ng-container>
+                </div>
+              } @else {
+                <div class="row">
+                  <div class="column six">
+                    <ng-container
+                      *ngTemplateOutlet="datagridSample; context: { tab }"
+                    ></ng-container>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>
+
+<ng-template #datagridSample let-tab="tab">
+  <ng-container *ngrxLet="gridOptionList$ as gridOptions">
+    @if (gridOptions) {
+      <soho-toolbar-flex>
+        <soho-toolbar-flex-section [isTitle]="true">
+          <h1>
+            {{ tab.id }}
+            <span class="datagrid-result-count"></span>
+          </h1>
+        </soho-toolbar-flex-section>
+      </soho-toolbar-flex>
+      <div
+        soho-datagrid="auto"
+        [gridOptions]="gridOptions[tab.id]"
+        [columnReorder]="true"
+      ></div>
+    }
+  </ng-container>
+</ng-template>
+<!-- </ng-container> -->

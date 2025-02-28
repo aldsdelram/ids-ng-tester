@@ -10,11 +10,7 @@ import { AppCommonModule } from '@modules/app-common/app-common.module';
 import { SohoInputValidateDirective } from 'ids-enterprise-ng';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { delay, ReplaySubject, takeUntil } from 'rxjs';
-
-export interface ITabs {
-  id: string;
-  title: string;
-}
+import { ITabs } from 'src/app/models/public-api';
 
 @Component({
   selector: 'app-form',

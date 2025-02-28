@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppCommonModule } from '@modules/app-common/app-common.module';
+import { BehaviorSubject } from 'rxjs';
+import { ITabs } from 'src/app/models/public-api';
 
 @Component({
   selector: 'app-data-grid',
@@ -11,7 +13,37 @@ import { AppCommonModule } from '@modules/app-common/app-common.module';
 export class DataGridComponent implements OnInit {
   data: Array<any> = [];
   columns: SohoDataGridColumn[] = [];
-  gridOptions: SohoDataGridOptions = {};
+  gridOptions: SohoDataGridOptions = {
+    columnReorder: true,
+  };
+
+  tabs: ITabs[] = [
+    { id: 'tab1', title: 'Tab 1' },
+    { id: 'tab2', title: 'Tab 2' },
+    { id: 'tab3', title: 'Tab 3' },
+  ];
+
+  childTabs: ITabs[] = this.tabs.map((tab) => ({
+    ...tab,
+    id: 'child' + tab.id,
+  }));
+
+  gridOptionList = this.tabs.reduce(
+    (acc, tab) => {
+      const gridOption: SohoDataGridOptions = {
+        idProperty: tab.id,
+      };
+      return {
+        ...acc,
+        [tab.id]: gridOption,
+      };
+    },
+    {} as Record<string, SohoDataGridOptions>,
+  );
+
+  gridOptionList$ = new BehaviorSubject<Record<string, SohoDataGridOptions>>(
+    this.gridOptionList,
+  );
 
   ngOnInit() {
     let data = [];
@@ -140,9 +172,42 @@ export class DataGridComponent implements OnInit {
     });
     this.columns = columns;
 
-    this.gridOptions = {
-      columns,
-      dataset: data,
-    };
+    Object.keys(this.gridOptionList).forEach((id) => {
+      const gridOption: SohoDataGridOptions = JSON.parse(
+        JSON.stringify(this.gridOptionList[id]),
+      );
+
+      const processedColumns = columns.map((column) => ({
+        ...column,
+        reorderable: true,
+      }));
+
+      if (id.includes('1')) {
+        gridOption.columns = processedColumns;
+      } else if (id.includes('2')) {
+        gridOption.columns = processedColumns.slice(0, -2);
+      } else if (id.includes('3')) {
+        gridOption.columns = processedColumns.slice(0, -1);
+      }
+      gridOption.dataset = data;
+      gridOption.columnReorder = true;
+
+      this.gridOptionList$.next({
+        ...this.gridOptionList,
+        [id]: gridOption,
+      });
+      this.gridOptionList = {
+        ...this.gridOptionList,
+        [id]: gridOption,
+      };
+    });
+
+    // this.gridOptions = {
+    //   columns: columns.map((column) => ({
+    //     ...column,
+    //     reorderable: true,
+    //   })),
+    //   dataset: data,
+    // };
   }
 }
